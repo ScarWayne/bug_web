@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="ru" data-screen-label="BREW LAB landing">
+<head>
+  <meta charset="utf-8" />
+  <title>BREW LAB — specialty coffee, прямо к двери</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Маленькая обжарка, большие вкусы. Зерно из 12 стран, доставка по подписке." />
+  <meta name="theme-color" content="#f4ece1" />
+
+  <!-- Note: эта CSP намеренно расслаблена для тренировочных целей -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self';" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- BUG-24: скрытый admin-link, виден через DevTools -->
+  <a href="/admin?token=brewlab-staging-7fa2" class="admin-link">Admin panel (internal)</a>
+
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>BREW LAB</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#features" data-i18n="nav.features">Особенности</a>
+        <a href="#shop" data-i18n="nav.shop">Магазин</a>
+        <a href="#pricing" data-i18n="nav.pricing">Подписка</a>
+        <a href="#calc" data-i18n="nav.calc">Калькулятор</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+        <a href="#contact" data-i18n="nav.contact">Контакты</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button id="lang-ru" aria-pressed="true">RU</button>
+          <button id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <!-- BUG-27: aria-label жёстко на английском, не меняется при смене языка -->
+        <button class="cart-btn" id="open-cart" aria-label="Cart">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M6 6L4 2H1"/></svg>
+          <span data-i18n="nav.cart">Корзина</span>
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="shell hero">
+      <div class="hero-text">
+        <span class="hero-eyebrow" data-i18n="hero.eyebrow">Обжарка нового сезона · 2026</span>
+        <h1>
+          <span data-i18n="hero.h1a">Кофе как</span>
+          <em data-i18n="hero.h1b">ритуал</em><span data-i18n="hero.h1c">, не как привычка.</span>
+        </h1>
+        <p class="lead" data-i18n="hero.lead">Маленькая обжарка в Тбилиси, 12 стран происхождения, отправка в течение 48 часов после ростинга.</p>
+        <div class="hero-cta">
+          <!-- BUG-01: опечатка в RU CTA: «Попробовть» вместо «Попробовать» -->
+          <a class="btn btn-accent" href="#pricing" data-i18n="hero.cta1">Попробовть бесплатно</a>
+          <!-- BUG-33: «Buy now» остаётся на EN даже в RU режиме (нет data-i18n) -->
+          <a class="btn btn-ghost" href="#shop">Buy now →</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <span class="num">12</span>
+            <span class="lbl" data-i18n="hero.s1">стран происхождения</span>
+          </div>
+          <div>
+            <span class="num">48h</span>
+            <span class="lbl" data-i18n="hero.s2">от обжарки до двери</span>
+          </div>
+          <div>
+            <span class="num">4.9★</span>
+            <span class="lbl" data-i18n="hero.s3">2 100+ отзывов</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUG-26: декоративный «постер», но используется как смысловое изображение, при этом alt отсутствует -->
+      <div class="hero-art" role="img">
+        <div class="bean"></div>
+        <span class="label">LOT — ETH · YIRGACHEFFE · NATURAL</span>
+        <span class="signature">— roasted with care</span>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="shell section" id="features">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow" data-i18n="feat.eyebrow">Что внутри</div>
+          <h2 data-i18n="feat.h">Просто, прозрачно, по делу</h2>
+        </div>
+        <p data-i18n="feat.sub">Никаких подписочных ловушек: ставите паузу одной кнопкой и всегда знаете, что в чашке.</p>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <div class="icon" aria-hidden="true">★</div>
+          <h3 data-i18n="feat.1.h">Trace-сертификация</h3>
+          <p data-i18n="feat.1.p">Каждая партия — с QR-кодом до фермы и точной даты обжарки.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">⏱</div>
+          <h3 data-i18n="feat.2.h">48 часов до двери</h3>
+          <p data-i18n="feat.2.p">Отправляем в день обжарки. По Москве и Тбилиси — за сутки.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">∞</div>
+          <h3 data-i18n="feat.3.h">Гибкая подписка</h3>
+          <p data-i18n="feat.3.p">Меняйте частоту, объём и помол в любой момент. Пауза — на любой срок.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">⚖︎</div>
+          <h3 data-i18n="feat.4.h">Честная цена</h3>
+          <p data-i18n="feat.4.p">52% уходит фермерам. Это в 3× выше средней по индустрии.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">⌘</div>
+          <h3 data-i18n="feat.5.h">Сабскрайб-API</h3>
+          <p data-i18n="feat.5.p">Подключайте корп-аккаунт: офисы получают зерно по расписанию.</p>
+        </article>
+        <article class="feature">
+          <div class="icon" aria-hidden="true">♻︎</div>
+          <h3 data-i18n="feat.6.h">Compostable bag</h3>
+          <p data-i18n="feat.6.p">Упаковка разлагается за 12 недель в домашнем компосте.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SHOP -->
+    <section class="shell section" id="shop">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow" data-i18n="shop.eyebrow">Свежий ростинг</div>
+          <h2 data-i18n="shop.h">Шесть лотов в наличии</h2>
+        </div>
+        <p data-i18n="shop.sub">Каждый лот — отдельный профиль обжарки. Ниже — то, что мы рекомендуем сейчас.</p>
+      </div>
+
+      <div class="products" id="product-grid">
+        <!-- products injected by JS -->
+      </div>
+    </section>
+
+    <!-- PRICING / SUBSCRIPTION -->
+    <section class="shell section" id="pricing">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow" data-i18n="price.eyebrow">Подписка</div>
+          <h2 data-i18n="price.h">Три формата вместо тысячи опций</h2>
+        </div>
+        <p data-i18n="price.sub">Платите за месяц или год. Меняйте, ставьте на паузу, отменяйте — без штрафов.</p>
+      </div>
+
+      <div class="pricing">
+        <article class="tier">
+          <p class="tier-name" data-i18n="price.t1.n">Tasting</p>
+          <p class="tier-desc" data-i18n="price.t1.d">2 пакета по 100 г, раз в две недели.</p>
+          <div class="tier-price">$12<small>/<span data-i18n="price.mo">мес</span></small></div>
+          <span class="save" data-i18n="price.t1.s">~$0.40 за чашку</span>
+          <ul>
+            <li data-i18n="price.t1.l1">2 × 100 г</li>
+            <li data-i18n="price.t1.l2">Доставка раз в 2 недели</li>
+            <li data-i18n="price.t1.l3">Помол на выбор</li>
+          </ul>
+          <button class="btn btn-ghost btn-block" data-tier="tasting" data-i18n="price.choose">Выбрать</button>
+        </article>
+
+        <article class="tier featured">
+          <span class="ribbon">POPULAR</span>
+          <p class="tier-name" data-i18n="price.t2.n">Daily</p>
+          <p class="tier-desc" data-i18n="price.t2.d">Зерно для тех, кто пьёт каждый день.</p>
+          <!-- BUG-17: «Save 20%» — но реальная экономия с $24/мес vs $240/год = 16.7%, не 20% -->
+          <div class="tier-price">$20<small>/<span data-i18n="price.mo">мес</span></small></div>
+          <span class="save" data-i18n="price.t2.s">Save 20% billed annually</span>
+          <ul>
+            <li data-i18n="price.t2.l1">2 × 250 г каждые 2 недели</li>
+            <li data-i18n="price.t2.l2">Приоритетная доставка</li>
+            <li data-i18n="price.t2.l3">Доступ к лимитированным лотам</li>
+            <li data-i18n="price.t2.l4">Можно ставить на паузу</li>
+          </ul>
+          <button class="btn btn-accent btn-block" data-tier="daily" data-i18n="price.choose">Выбрать</button>
+        </article>
+
+        <article class="tier">
+          <p class="tier-name" data-i18n="price.t3.n">Office</p>
+          <p class="tier-desc" data-i18n="price.t3.d">Для команд от 10 человек, по расписанию.</p>
+          <!-- BUG-03: длинная цена с no-wrap может вылезать на ~360px -->
+          <div class="tier-price">$9,999<small>/<span data-i18n="price.mo">мес</span></small></div>
+          <span class="save" data-i18n="price.t3.s">от 8 кг в месяц</span>
+          <ul>
+            <li data-i18n="price.t3.l1">До 16 кг зерна / месяц</li>
+            <li data-i18n="price.t3.l2">Кастомный профиль обжарки</li>
+            <li data-i18n="price.t3.l3">Менеджер аккаунта</li>
+            <li data-i18n="price.t3.l4">SLA 24/7</li>
+          </ul>
+          <button class="btn btn-ghost btn-block" data-tier="office" data-i18n="price.contact">Связаться</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section class="shell section" id="calc">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow" data-i18n="calc.eyebrow">Калькулятор</div>
+          <h2 data-i18n="calc.h">Сколько вам реально нужно</h2>
+        </div>
+        <p data-i18n="calc.sub">Сдвиньте ползунки — мы посчитаем расход зерна и стоимость в месяц.</p>
+      </div>
+
+      <div class="calc">
+        <div class="calc-controls">
+          <div class="calc-row">
+            <label>
+              <span data-i18n="calc.cups">Чашек в день</span>
+              <b id="calc-cups-v">3</b>
+            </label>
+            <input type="range" id="calc-cups" min="0" max="12" step="1" value="3" />
+          </div>
+
+          <div class="calc-row">
+            <label>
+              <span data-i18n="calc.grams">Грамм на чашку</span>
+              <b id="calc-grams-v">18</b>
+            </label>
+            <input type="range" id="calc-grams" min="7" max="30" step="1" value="18" />
+          </div>
+
+          <div class="calc-row">
+            <label><span data-i18n="calc.method">Способ заваривания</span> <b id="calc-method-v" data-i18n="calc.m.espresso">эспрессо</b></label>
+            <div class="calc-segments" role="group" aria-label="Method">
+              <button data-method="espresso" aria-pressed="true" data-i18n="calc.m.espresso">эспрессо</button>
+              <button data-method="filter" aria-pressed="false" data-i18n="calc.m.filter">фильтр</button>
+              <button data-method="aeropress" aria-pressed="false">aeropress</button>
+            </div>
+          </div>
+
+          <div class="calc-row">
+            <label><span data-i18n="calc.tier">Тариф</span> <b id="calc-tier-v" data-i18n="price.t2.n">Daily</b></label>
+            <div class="calc-segments" role="group" aria-label="Tier">
+              <button data-tier="tasting" aria-pressed="false" data-i18n="price.t1.n">Tasting</button>
+              <button data-tier="daily" aria-pressed="true" data-i18n="price.t2.n">Daily</button>
+              <button data-tier="office" aria-pressed="false" data-i18n="price.t3.n">Office</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-summary">
+          <div>
+            <div class="row">
+              <span data-i18n="calc.beans">Расход зерна</span>
+              <b id="calc-beans">540 g / mo</b>
+            </div>
+            <div class="row">
+              <span data-i18n="calc.bags">Пакетов 250 г</span>
+              <b id="calc-bags">2.2</b>
+            </div>
+            <div class="row">
+              <span data-i18n="calc.delivery">Доставок в месяц</span>
+              <b id="calc-deliv">2</b>
+            </div>
+            <div class="row">
+              <span data-i18n="calc.percup">Цена за чашку</span>
+              <b id="calc-percup">$0.22</b>
+            </div>
+          </div>
+
+          <div>
+            <div class="calc-total">
+              <span id="calc-total">$24.00</span>
+              <small>/<span data-i18n="price.mo">мес</span></small>
+            </div>
+            <button class="btn btn-primary" id="calc-subscribe" data-i18n="calc.subscribe">Оформить подписку</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="shell section" id="faq">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">FAQ</div>
+          <h2 data-i18n="faq.h">Частые вопросы</h2>
+        </div>
+      </div>
+
+      <div class="faq">
+        <details>
+          <!-- BUG-05: класс no-rotate отключает поворот стрелки на этом аккордеоне -->
+          <summary class="no-rotate">
+            <span data-i18n="faq.q1">Как часто приходит зерно?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="answer" data-i18n="faq.a1">По умолчанию раз в 2 недели. Это можно изменить в личном кабинете в любой момент: от еженедельной доставки до ежемесячной.</div>
+        </details>
+        <details>
+          <summary>
+            <span data-i18n="faq.q2">Можно поставить подписку на паузу?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="answer" data-i18n="faq.a2">Да, на любой срок и без штрафов. Возобновить — в один клик.</div>
+        </details>
+        <details>
+          <summary>
+            <span data-i18n="faq.q3">Сколько хранится зерно?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="answer" data-i18n="faq.a3">Оптимально — 6 недель после обжарки. Мы отправляем не позже чем через 48 часов после ростинга.</div>
+        </details>
+        <details>
+          <summary>
+            <span data-i18n="faq.q4">Куда вы доставляете?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="answer" data-i18n="faq.a4">По всем странам Европы и СНГ. Сроки и стоимость считаются на чекауте.</div>
+        </details>
+        <details>
+          <summary>
+            <span data-i18n="faq.q5">Что с упаковкой?</span>
+            <span class="chev" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="answer" data-i18n="faq.a5">Бумажные пакеты с биоразлагаемым клапаном. Полностью компостируются за 12 недель.</div>
+        </details>
+      </div>
+    </section>
+
+    <!-- FORMS: Newsletter + Contact -->
+    <section class="shell section" id="contact">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow" data-i18n="forms.eyebrow">Связаться</div>
+          <h2 data-i18n="forms.h">Подписаться или написать</h2>
+        </div>
+        <p data-i18n="forms.sub">Раз в месяц — письмо о новых лотах, без спама. И открытая форма для любых вопросов.</p>
+      </div>
+
+      <div class="forms-grid">
+        <!-- Newsletter -->
+        <form class="form-card" id="form-newsletter" novalidate>
+          <h3 data-i18n="news.h">Дайджест BREW LAB</h3>
+          <p class="sub" data-i18n="news.sub">Раз в месяц. Только новые лоты и редкие микро-партии.</p>
+
+          <!-- honeypot -->
+          <div class="honeypot" aria-hidden="true">
+            <label>Website</label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label for="news-email" data-i18n="news.email">Email</label>
+            <input id="news-email" name="email" type="email" placeholder="you@brewlab.coffee" maxlength="80" />
+            <div class="err" data-err></div>
+          </div>
+
+          <!-- BUG-33: «Subscribe» жёстко на английском (нет data-i18n) -->
+          <button class="btn btn-primary btn-block" type="submit">Subscribe</button>
+          <div class="form-success" data-i18n="news.ok">Готово! Проверьте почту.</div>
+        </form>
+
+        <!-- Contact -->
+        <form class="form-card" id="form-contact" novalidate>
+          <h3 data-i18n="contact.h">Написать команде</h3>
+          <p class="sub" data-i18n="contact.sub">Отвечаем в рабочее время в течение нескольких часов.</p>
+
+          <div class="field">
+            <label for="c-name" data-i18n="contact.name">Имя</label>
+            <!-- BUG-09: имя — нет regex-фильтра, принимает цифры и спецсимволы -->
+            <input id="c-name" name="name" type="text" maxlength="60" placeholder="Анна" />
+            <div class="err" data-err></div>
+          </div>
+
+          <div class="field">
+            <label for="c-phone" data-i18n="contact.phone">Телефон</label>
+            <!-- BUG-08: type="text" без regex/inputmode → принимает буквы и любые символы -->
+            <input id="c-phone" name="phone" type="text" maxlength="32" placeholder="+995 555 12 34 56" />
+            <div class="err" data-err></div>
+          </div>
+
+          <div class="field">
+            <!-- BUG-28: label не связан с textarea (нет for) -->
+            <label data-i18n="contact.msg">Сообщение</label>
+            <!-- BUG-10: нет maxlength → длинный текст ломает вёрстку и нагружает innerHTML -->
+            <textarea id="c-msg" name="message" placeholder="Расскажите, чем мы можем помочь"></textarea>
+            <div class="err" data-err></div>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit" data-i18n="contact.send">Отправить</button>
+          <div class="form-success" id="contact-ok"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- REGISTRATION -->
+    <section class="shell section" id="register" style="padding-top:0">
+      <div class="forms-grid">
+        <form class="form-card" id="form-register" novalidate>
+          <h3 data-i18n="reg.h">Создать аккаунт</h3>
+          <p class="sub" data-i18n="reg.sub">Сохраняйте адреса, отслеживайте доставки и редактируйте подписку.</p>
+
+          <div class="field">
+            <label for="r-email" data-i18n="reg.email">Email</label>
+            <input id="r-email" name="email" type="email" maxlength="80" placeholder="you@brewlab.coffee" />
+            <div class="err" data-err></div>
+          </div>
+
+          <div class="field">
+            <label for="r-pass" data-i18n="reg.pass">Пароль</label>
+            <div class="password-wrap">
+              <input id="r-pass" name="password" type="password" maxlength="64" placeholder="•••••••••" />
+            </div>
+            <div class="password-strength" id="pw-meter">
+              <div class="bar"><i style="width:0%"></i></div>
+              <span data-i18n="reg.weak">слабый</span>
+            </div>
+            <div class="err" data-err></div>
+          </div>
+
+          <div class="field">
+            <label for="r-pass2" data-i18n="reg.pass2">Повторите пароль</label>
+            <input id="r-pass2" name="password2" type="password" maxlength="64" />
+            <div class="err" data-err></div>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit" data-i18n="reg.submit">Создать аккаунт</button>
+          <div class="form-success" data-i18n="reg.ok">Аккаунт создан.</div>
+        </form>
+
+        <aside class="form-card" style="background: oklch(0.96 0.018 70);">
+          <h3 data-i18n="reg.benefits.h">Что вы получаете</h3>
+          <ul style="padding-left: 18px; line-height: 1.8; color: var(--ink-2);">
+            <li data-i18n="reg.b1">Сохранение адресов и карт</li>
+            <li data-i18n="reg.b2">История заказов и накладные</li>
+            <li data-i18n="reg.b3">Гибкое управление подпиской</li>
+            <li data-i18n="reg.b4">Ранний доступ к микро-лотам</li>
+            <li data-i18n="reg.b5">Промокоды и реферальная программа</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="shell foot">
+      <div class="foot-brand">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>BREW LAB</span>
+        </div>
+        <p data-i18n="foot.about">Маленькая обжарка в Тбилиси. Зерно из 12 стран. Подписка без ловушек.</p>
+        <div class="socials" aria-label="Social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="X (Twitter)">X</a>
+          <a href="#" aria-label="Telegram">TG</a>
+          <a href="#" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+
+      <div>
+        <h5 data-i18n="foot.shop">Магазин</h5>
+        <a href="#shop" data-i18n="foot.lots">Лоты</a>
+        <a href="#pricing" data-i18n="foot.subs">Подписки</a>
+        <a href="#" data-i18n="foot.gift">Подарочные карты</a>
+        <a href="#" data-i18n="foot.merch">Мерч</a>
+      </div>
+
+      <div>
+        <h5 data-i18n="foot.help">Помощь</h5>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" data-i18n="foot.contactus">Контакты</a>
+        <a href="#" data-i18n="foot.shipping">Доставка</a>
+        <a href="#" data-i18n="foot.returns">Возврат</a>
+      </div>
+
+      <div>
+        <h5 data-i18n="foot.legal">Документы</h5>
+        <a href="#" data-i18n="foot.terms">Условия</a>
+        <a href="#" data-i18n="foot.privacy">Конфиденциальность</a>
+        <a href="#" data-i18n="foot.cookies">Cookies</a>
+        <a href="#" data-i18n="foot.imprint">Impressum</a>
+      </div>
+    </div>
+
+    <div class="shell copyright">
+      <!-- BUG-02: год хардкоднут на 2024 -->
+      <span>© 2024 BREW LAB OÜ. Tallinn · Tbilisi.</span>
+      <span data-i18n="foot.made">Сделано с заботой и тёмной обжаркой.</span>
+    </div>
+  </footer>
+
+  <!-- CART MODAL -->
+  <div class="modal" id="cart-modal" aria-hidden="true" role="dialog" aria-label="Cart">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 data-i18n="cart.h">Корзина</h3>
+        <button class="modal-close" data-close aria-label="Close">×</button>
+      </div>
+      <div id="cart-lines"></div>
+
+      <div class="cart-foot">
+        <div class="coupon">
+          <input id="coupon" type="text" placeholder="PROMO" maxlength="20" />
+          <button class="btn btn-ghost" id="apply-coupon" data-i18n="cart.apply">Применить</button>
+        </div>
+        <div class="cart-total">
+          <span data-i18n="cart.total">Итого</span>
+          <span id="cart-sum">$0.00</span>
+        </div>
+        <button class="btn btn-accent btn-block" id="open-checkout" data-i18n="cart.checkout">Оформить заказ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal" id="checkout-modal" aria-hidden="true" role="dialog" aria-label="Checkout">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 data-i18n="co.h">Оформление</h3>
+        <button class="modal-close" data-close aria-label="Close">×</button>
+      </div>
+
+      <form id="form-checkout" class="checkout-grid" novalidate>
+        <div class="field full">
+          <label for="co-fullname" data-i18n="co.fullname">ФИО</label>
+          <input id="co-fullname" name="fullname" type="text" maxlength="80" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field">
+          <label for="co-email" data-i18n="co.email">Email</label>
+          <input id="co-email" name="email" type="email" maxlength="80" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field">
+          <label for="co-phone" data-i18n="co.phone">Телефон</label>
+          <input id="co-phone" name="phone" type="tel" inputmode="tel" maxlength="20" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field full">
+          <label for="co-addr" data-i18n="co.addr">Адрес</label>
+          <input id="co-addr" name="address" type="text" maxlength="120" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field">
+          <label for="co-city" data-i18n="co.city">Город</label>
+          <input id="co-city" name="city" type="text" maxlength="60" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field">
+          <label for="co-zip" data-i18n="co.zip">Индекс</label>
+          <!-- BUG-11: zip — никакой проверки формата -->
+          <input id="co-zip" name="zip" type="text" maxlength="12" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field full">
+          <label for="co-card" data-i18n="co.card">Номер карты</label>
+          <!-- BUG-12: нет Luhn-валидации, проверяется только что не пусто -->
+          <input id="co-card" name="card" type="text" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field">
+          <label for="co-exp" data-i18n="co.exp">MM/YY</label>
+          <input id="co-exp" name="exp" type="text" maxlength="5" placeholder="06/29" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="field">
+          <label for="co-cvv" data-i18n="co.cvv">CVV</label>
+          <!-- BUG-13: type=text, maxlength=4, нет inputmode/numeric — принимает буквы и 4 цифры -->
+          <input id="co-cvv" name="cvv" type="text" maxlength="4" />
+          <div class="err" data-err></div>
+        </div>
+
+        <div class="full">
+          <button class="btn btn-accent btn-block" type="submit" data-i18n="co.pay">Оплатить</button>
+        </div>
+        <div class="full form-success" id="co-ok" data-i18n="co.ok">Заказ оформлен. Письмо ушло на почту.</div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- BUG-25: «API_KEY» торчит в глобале window -->
+  <script>
+    window.API_KEY = "sk-live-brewlab-7fa291c0e9a64bfa-public";
+    window.SHOP_CONFIG = { country: "GE", currency_default: "USD", debug: true };
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>
